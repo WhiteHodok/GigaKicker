@@ -17,5 +17,5 @@ async def kicker(ctx):
         await ctx.send(f"{member.mention} может снова использовать голосовые каналы.")
     else:
         await ctx.send("Пользователь не найден.")
-
+#вот это менять если ты у себя разворачивать бота хочешь
 bot.run('')

@@ -3,7 +3,7 @@ import asyncio
 
 
 # Get the bot token
-TOKEN = "MTEwNjA0NTE4NDE2NjM1MDk1OA.GvyVxV.uAqSPiwHtyA_PBTHRmNCKZEzfLQRJw5UjYmNEA"
+TOKEN = ""
 
 # Create a Discord client
 

@@ -1,21 +1,48 @@
 import discord
 import asyncio
-from discord.ext import commands
+
+
+# Get the bot token
+TOKEN = ""
+
+# Create a Discord client
 
 intents = discord.Intents.default()
+client = discord.Client(intents=intents)
 intents.members = True
 
-bot = commands.Bot(command_prefix='/', intents=intents)
+# Define a function to kick the user
+def kick_user(user_id):
+    # Get the user
+    user = client.get_user(user_id)
 
-@bot.command()
-async def kicker(ctx):
-    member = discord.utils.get(ctx.guild.members, name='Beanskers#5403')
-    if member is not None:
-        await member.edit(voice_channel=None)
-        await ctx.send(f"{member.mention} был заблокирован в голосовых каналах на 5 минут.")
-        await asyncio.sleep(300) # 300 секунд = 5 минут
-        await ctx.send(f"{member.mention} может снова использовать голосовые каналы.")
-    else:
-        await ctx.send("Пользователь не найден.")
-#вот это менять если ты у себя разворачивать бота хочешь
-bot.run('')
+    # Get the user's voice channel
+    voice_channel = user.voice_channel
+
+    # If the user is in a voice channel, kick them
+    if voice_channel:
+        voice_channel.kick(user)
+
+# Define a function to send a message to the channel
+async def send_message(channel, message):
+    # Send the message to the channel
+    await channel.send(message)
+
+# When the bot is ready, send a message to the channel
+@client.event
+async def on_ready():
+    # Send a message to the channel
+    await send_message(client.get_channel(589144738637021205), "Я здесь чтобы кикать баса!")
+
+# When the command /kicker is used, kick the user
+@client.event
+async def on_message(message):
+    # If the command is /kicker
+    if message.content == "/kicker":
+        # Kick the user
+        kick_user(message.author.id)
+        # Send a message to the channel
+        await send_message(message.channel, "Бас был кикнут!")
+
+# Run the bot
+client.run(TOKEN)
